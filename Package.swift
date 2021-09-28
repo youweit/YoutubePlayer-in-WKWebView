@@ -13,7 +13,7 @@ let package = Package(
         .target(
             name: "YoutubePlayer-in-WKWebView",
             path: "WKYTPlayerView",
-            exclude: ["youtube-player-ios-example", "YoutubePlayer-in-WKWebView.podspec"],
+            //exclude: ["youtube-player-ios-example", "YoutubePlayer-in-WKWebView.podspec"],
             resources: [
                 .process("WKYTPlayerView.bundle")
             ],
