@@ -1083,7 +1083,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
 - (WKWebView *)createNewWebViewWithPlayerParams:(NSDictionary *)additionalPlayerParams {
 
     NSMutableDictionary *playerVars = [additionalPlayerParams objectForKey:@"playerVars"];
-    NSNumber* playsinline = [playerVars objectForKey:@"playsinline"];
+    NSNumber* playsinline = [playerVars objectForKey:@"playsinline"] ? [playerVars objectForKey:@"playsinline"] : @0;
     // WKWebView equivalent for UI Web View's scalesPageToFit
     // 
     NSString *jScript = @"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);";
