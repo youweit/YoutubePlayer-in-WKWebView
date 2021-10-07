@@ -897,7 +897,7 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     
     // Remove the existing webView to reset any state
     [self.webView removeFromSuperview];
-    _webView = [self createNewWebView];
+    _webView = [self createNewWebViewWithPlayerParams:playerParams];
     [self addSubview:self.webView];
     
     self.webView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -1080,8 +1080,10 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     _webView = webView;
 }
 
-- (WKWebView *)createNewWebView {
-    
+- (WKWebView *)createNewWebViewWithPlayerParams:(NSDictionary *)additionalPlayerParams {
+
+    NSMutableDictionary *playerVars = [additionalPlayerParams objectForKey:@"playerVars"];
+    NSNumber* playsinline = [playerVars objectForKey:@"playsinline"];
     // WKWebView equivalent for UI Web View's scalesPageToFit
     // 
     NSString *jScript = @"var meta = document.createElement('meta'); meta.setAttribute('name', 'viewport'); meta.setAttribute('content', 'width=device-width'); document.getElementsByTagName('head')[0].appendChild(meta);";
@@ -1095,7 +1097,11 @@ NSString static *const kWKYTPlayerSyndicationRegexPattern = @"^https://tpc.googl
     configuration.userContentController = wkUController;
     
     configuration.allowsInlineMediaPlayback = YES;
-	configuration.mediaTypesRequiringUserActionForPlayback = NO;
+    if ( [(NSString*)[UIDevice currentDevice].model hasPrefix:@"iPad"] && [playsinline isEqualToNumber:@0]) {
+        configuration.allowsInlineMediaPlayback = NO; /* Device is iPad */
+    }
+
+    configuration.mediaTypesRequiringUserActionForPlayback = NO;
     
     WKWebView *webView = [[WKWebView alloc] initWithFrame:self.bounds configuration:configuration];
     webView.scrollView.scrollEnabled = NO;
