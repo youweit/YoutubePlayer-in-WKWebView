@@ -1,0 +1,4 @@
+module YoutubePlayer_in_WKWebView {
+    headers "WKYTPlayerView/WKYTPlayerView.h"
+    export *
+}
